@@ -6,8 +6,8 @@ Data annotation validation for gRPC Code-First services in ASP.NET Core. Automat
 
 | Package | Description |
 |---|---|
-| **Codify.Grpc.CodeFirst.DataAnnotations** | Server-side interceptor that validates incoming gRPC requests |
-| **Codify.Grpc.CodeFirst.Client.Validation** | Client-side helper to read validation errors from `RpcException` trailers |
+| **Codify.GrpcCodeFirstDataAnnotations** | Server-side interceptor that validates incoming gRPC requests |
+| **Codify.GrpcCodeFirstDataAnnotations.Exceptions** | Client-side helper to read validation errors from gRPC `RpcException` trailers |
 
 ## Getting Started
 

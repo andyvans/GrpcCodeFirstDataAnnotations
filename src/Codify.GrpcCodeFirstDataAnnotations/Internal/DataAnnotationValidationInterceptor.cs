@@ -46,20 +46,21 @@ internal class DataAnnotationValidationInterceptor(
         await continuation(validatingRequestStream, responseStream, context);
     }
 
+    /// <summary>
+    ///     Perform the validation using the Data Annotations ValidationContext.
+    /// </summary>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <param name="request"></param>
+    /// <exception cref="ValidationRpcException"></exception>
     private async Task ValidateRequest<TRequest>(TRequest request) where TRequest : class
     {
-        if (!Validate(request, out var failures))
+        var context = new ValidationContext(request, serviceProvider, null);
+        var validationFailures = new List<ValidationResult>();
+        var valid = Validator.TryValidateObject(request, context, validationFailures, true);
+        if (!valid)
         {
-            var result = await handler.HandleAsync(failures);
+            var result = await handler.HandleAsync(validationFailures);
             throw new ValidationRpcException(new Status(StatusCode.InvalidArgument, result.Message), result.Trailers.ToValidationMetadata());
         }
-    }
-
-    protected virtual bool Validate(object obj, out IList<ValidationResult> validationErrors)
-    {
-        validationErrors = [];
-        var context = new ValidationContext(obj, serviceProvider, null);
-        var valid = Validator.TryValidateObject(obj, context, validationErrors, true);
-        return valid;
     }
 }

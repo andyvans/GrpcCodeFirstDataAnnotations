@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>10.0.0</Version>
+    <Authors>Andy van Stokkum</Authors>
+    <Company>Codify</Company>
+    <Product>Codify.GrpcCodeFirstDataAnnotations.Exceptions</Product>
+    <Description>Data annotations validation errors reader. Reads Codify.GrpcCodeFirstDataAnnotationsCodify.GrpcCodeFirstDataAnnotations gRPC trailers.</Description>
+    <PackageProjectUrl>https://github.com/andyvans/GrpcCodeFirstDataAnnotations</PackageProjectUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageTags>grpc;code-first;data-annotations;validation</PackageTags>
+    <RepositoryUrl>https://github.com/andyvans/GrpcCodeFirstDataAnnotations</RepositoryUrl>
+    <PackageIcon>codify.png</PackageIcon>
+    <PackageIconUrl />
+    <AssemblyVersion>10.0.0</AssemblyVersion>
+    <FileVersion>10.0.0</FileVersion>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\codify.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  
+</Project>

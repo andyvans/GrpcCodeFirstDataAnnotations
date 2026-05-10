@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Build/">
+    <File Path="../.github/workflows/build.yml" />
+    <File Path="../.github/workflows/dotnet.yml" />
+    <File Path="../README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Codify.GrpcCodeFirstDataAnnotations.TestServer.Models/Codify.GrpcCodeFirstDataAnnotations.TestServer.Models.csproj" Id="5753ca81-7624-4aa1-8c30-9959da6a896f" />
+    <Project Path="Tests/Codify.GrpcCodeFirstDataAnnotations.Test/Codify.GrpcCodeFirstDataAnnotations.Test.csproj" />
+    <Project Path="Tests/Codify.GrpcCodeFirstDataAnnotations.TestServer/Codify.GrpcCodeFirstDataAnnotations.TestServer.csproj" />
+  </Folder>
+  <Project Path="Codify.GrpcCodeFirstDataAnnotations.Exceptions/Codify.GrpcCodeFirstDataAnnotations.Exceptions.csproj" />
+  <Project Path="Codify.GrpcCodeFirstDataAnnotations/Codify.GrpcCodeFirstDataAnnotations.csproj" />
+</Solution>

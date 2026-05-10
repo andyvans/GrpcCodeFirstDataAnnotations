@@ -1,4 +1,4 @@
-# Codify.Grpc.CodeFirst.DataAnnotations
+# Grpc.CodeFirst.DataAnnotations
 
 Data annotation validation for gRPC Code-First services in ASP.NET Core. Automatically validates request messages using `System.ComponentModel.DataAnnotations` attributes and returns structured validation errors via gRPC trailers.
 

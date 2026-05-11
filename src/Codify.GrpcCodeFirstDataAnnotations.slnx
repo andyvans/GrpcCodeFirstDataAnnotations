@@ -2,6 +2,8 @@
   <Folder Name="/Build/">
     <File Path="../.github/workflows/build.yml" />
     <File Path="../README.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Codify.GrpcCodeFirstDataAnnotations.TestServer.Models/Codify.GrpcCodeFirstDataAnnotations.TestServer.Models.csproj" Id="5753ca81-7624-4aa1-8c30-9959da6a896f" />

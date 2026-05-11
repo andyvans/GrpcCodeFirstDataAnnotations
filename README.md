@@ -1,6 +1,6 @@
-# Grpc.CodeFirst.DataAnnotations
+# GRPC Code-First Data Annotations
 
-Data annotation validation for gRPC Code-First services in ASP.NET Core. Automatically validates request messages using `System.ComponentModel.DataAnnotations` attributes and returns structured validation errors via gRPC trailers.
+Data annotation validation for gRPC Code-First models in ASP.NET Core. Automatically validates request messages using `System.ComponentModel.DataAnnotations` attributes and returns structured validation errors via gRPC trailers.
 
 ## Packages
 

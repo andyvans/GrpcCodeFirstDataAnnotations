@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net.Grpc" Version="1.2.2" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.7" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802" />
-    <PackageReference Include="protobuf-net" Version="3.2.56" />
+    <PackageReference Include="protobuf-net.Grpc" />
+    <PackageReference Include="System.Security.Cryptography.Xml" />
+    <PackageReference Include="System.ServiceModel.Primitives" />
+    <PackageReference Include="protobuf-net" />
   </ItemGroup>
 
 </Project>

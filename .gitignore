@@ -8,3 +8,4 @@
 [Oo]bj/
 [Ll]og/
 **/PublishProfiles
+**/*.tmp

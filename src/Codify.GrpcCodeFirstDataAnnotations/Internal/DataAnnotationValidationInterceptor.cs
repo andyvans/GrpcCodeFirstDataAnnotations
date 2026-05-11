@@ -1,14 +1,20 @@
+using Codify.GrpcCodeFirstDataAnnotations.Contracts;
+using Codify.GrpcCodeFirstDataAnnotations.Models;
+using Grpc.Core;
+using Grpc.Core.Interceptors;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
-using Codify.GrpcCodeFirstDataAnnotations.Contracts;
-using Grpc.Core;
-using Grpc.Core.Interceptors;
+using Microsoft.Extensions.Logging;
 
 namespace Codify.GrpcCodeFirstDataAnnotations.Internal;
 
 internal class DataAnnotationValidationInterceptor(
+    ILogger<DataAnnotationValidationInterceptor> logger,
+    IOptions<DataAnnotationValidationOptions> options,
     IServiceProvider serviceProvider,
     IDataAnnotationsResultHandler handler) : Interceptor
 {
@@ -60,6 +66,14 @@ internal class DataAnnotationValidationInterceptor(
         if (!valid)
         {
             var result = await handler.HandleAsync(validationFailures);
+
+            logger.Log(
+                options.Value.ValidationFailureLogLevel,
+                "Validation failed for {RequestType}. {Message}. {PropertyNames}",
+                typeof(TRequest).Name,
+                result.Message,
+                string.Join(", ", result.Trailers.Select(s => string.Join(", ", s.PropertyNames))));
+
             throw new ValidationRpcException(new Status(StatusCode.InvalidArgument, result.Message), result.Trailers.ToValidationMetadata());
         }
     }

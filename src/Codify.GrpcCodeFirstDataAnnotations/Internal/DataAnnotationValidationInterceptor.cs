@@ -3,11 +3,7 @@ using Codify.GrpcCodeFirstDataAnnotations.Models;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Codify.GrpcCodeFirstDataAnnotations.Internal;
@@ -60,9 +56,21 @@ internal class DataAnnotationValidationInterceptor(
     /// <exception cref="ValidationRpcException"></exception>
     private async Task ValidateRequest<TRequest>(TRequest request) where TRequest : class
     {
-        var context = new ValidationContext(request, serviceProvider, null);
         var validationFailures = new List<ValidationResult>();
-        var valid = Validator.TryValidateObject(request, context, validationFailures, true);
+
+        // First perform standard Data Annotations validation
+        var context = new ValidationContext(request, serviceProvider, null);
+        Validator.TryValidateObject(request, context, validationFailures, true);
+
+        // Then perform the required properties validation, which checks for properties that are non-nullable reference types but don't have a [Required] attribute
+        if (options.Value.ValidateRequiredNonNullableProperties)
+        {
+            var requiredFailures = new RequiredPropertiesValidator<TRequest>(options.Value.MaxRequiredValidationDepth).Validate(request);
+            validationFailures.AddRange(requiredFailures);
+        }
+
+        // If there are any validation failures, handle them and throw a ValidationRpcException with the appropriate status code and trailers
+        var valid = validationFailures.Count == 0;
         if (!valid)
         {
             var result = await handler.HandleAsync(validationFailures);

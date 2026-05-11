@@ -93,7 +93,7 @@ public class RequiredPropertiesValidatorTest
             .GetUninitializedObject(typeof(ModelWithBoth));
 
         var validationContext = new ValidationContext(instance);
-        var annotationResults = new System.Collections.Generic.List<ValidationResult>();
+        var annotationResults = new List<ValidationResult>();
         Validator.TryValidateObject(instance, validationContext, annotationResults, validateAllProperties: true);
 
         var requiredResults = validator.Validate(instance);
@@ -105,7 +105,7 @@ public class RequiredPropertiesValidatorTest
         requiredResults.Should().ContainSingle(r => r.ErrorMessage == "'Code' must not be null");
 
         // Combined list covers both failures
-        var combined = new System.Collections.Generic.List<ValidationResult>(annotationResults);
+        var combined = new List<ValidationResult>(annotationResults);
         combined.AddRange(requiredResults);
         combined.Should().HaveCount(2);
     }
@@ -116,7 +116,7 @@ public class RequiredPropertiesValidatorTest
         var model = new ModelWithBoth { Name = "Alice", Code = "greet" };
         var validator = new RequiredPropertiesValidator<ModelWithBoth>();
         var validationContext = new ValidationContext(model);
-        var annotationResults = new System.Collections.Generic.List<ValidationResult>();
+        var annotationResults = new List<ValidationResult>();
         Validator.TryValidateObject(model, validationContext, annotationResults, validateAllProperties: true);
 
         var requiredResults = validator.Validate(model);

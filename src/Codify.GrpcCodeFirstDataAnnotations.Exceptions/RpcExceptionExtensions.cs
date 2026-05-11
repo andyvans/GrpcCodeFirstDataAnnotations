@@ -9,11 +9,21 @@ public static class RpcExceptionExtensions
 {
     public const string TrailerKey = "data-annotation-validation-errors";
 
+    /// <summary>
+    ///     Retrieves a list of validation errors from the trailers of the specified gRPC exception.
+    /// </summary>
+    /// <remarks>
+    ///     This method is used to extract data annotation validation errors that were sent as
+    ///     trailers in a gRPC response. 
+    /// </remarks>
+    /// <param name="exception">The <see cref="RpcException"/> instance from which to extract validation error information. Cannot be null.</param>
+    /// <returns>A list of <see cref="DataAnnotationValidationTrailers"/> objects representing validation errors.</returns>
     public static IList<DataAnnotationValidationTrailers> GetValidationErrors(this RpcException exception)
     {
         var validationTrailer = exception.Trailers.FirstOrDefault(x => x.Key == TrailerKey);
-        return validationTrailer != null
+        var validationTrailers = validationTrailer != null
             ? JsonSerializer.Deserialize<IList<DataAnnotationValidationTrailers>>(validationTrailer.Value)
-            : new List<DataAnnotationValidationTrailers>();
+            : null;
+        return validationTrailers ?? [];
     }
 }

@@ -6,6 +6,6 @@ namespace Codify.GrpcCodeFirstDataAnnotations.Exceptions;
 [Serializable]
 public class DataAnnotationValidationTrailers
 {
-    public IEnumerable<string> PropertyNames { get; set; }
-    public string ErrorMessage { get; set; }
+    public required IEnumerable<string> PropertyNames { get; set; }
+    public required string? ErrorMessage { get; set; }
 }

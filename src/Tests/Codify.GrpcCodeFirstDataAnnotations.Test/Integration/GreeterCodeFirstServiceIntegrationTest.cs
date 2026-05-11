@@ -6,15 +6,12 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using ProtoBuf.Grpc.Client;
 using ProtoBuf.Grpc.Server;
 using Xunit;
 
-namespace Codify.GrpcCodeFirstDataAnnotations.Test;
+namespace Codify.GrpcCodeFirstDataAnnotations.Test.Integration;
 
 public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -48,7 +45,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
             Name = "Alice",
             Action = "greet",
             Age = 30,
-            Duration = TimeSpan.FromHours(1)
+            Duration = TimeSpan.FromHours(1),
+            AdditionalInfo = "extra",
+            MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+            MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
         }, default);
 
         // Verify
@@ -68,7 +68,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                 Name = "",
                 Action = "greet",
                 Age = 30,
-                Duration = TimeSpan.FromHours(1)
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "extra",
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
             }, default);
         }
 
@@ -101,7 +104,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                 Name = "Alice",
                 Action = "run",
                 Age = 30,
-                Duration = TimeSpan.FromHours(1)
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "extra",
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
             }, default);
         }
 
@@ -134,7 +140,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                 Name = "Alice",
                 Action = "greet",
                 Age = 150,
-                Duration = TimeSpan.FromHours(1)
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "extra",
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
             }, default);
         }
 
@@ -166,7 +175,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
             Name = "Alice",
             Action = "greet",
             Age = 30,
-            Duration = TimeSpan.FromHours(1)
+            Duration = TimeSpan.FromHours(1),
+            AdditionalInfo = "extra",
+            MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+            MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
         }, default))
         {
             responses.Add(response);
@@ -191,7 +203,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                 Name = "",
                 Action = "greet",
                 Age = 30,
-                Duration = TimeSpan.FromHours(1)
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "extra",
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
             }, default))
             {
             }
@@ -209,8 +224,8 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
 
         async IAsyncEnumerable<HelloCodeFirstRequest> GetRequests()
         {
-            yield return new HelloCodeFirstRequest { Name = "Alice", Action = "greet", Age = 30, Duration = TimeSpan.FromHours(1) };
-            yield return new HelloCodeFirstRequest { Name = "Bob", Action = "wave", Age = 25, Duration = TimeSpan.FromHours(2) };
+            yield return new HelloCodeFirstRequest { Name = "Alice", Action = "greet", Age = 30, Duration = TimeSpan.FromHours(1), AdditionalInfo = "extra", MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] }, MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }] };
+            yield return new HelloCodeFirstRequest { Name = "Bob", Action = "wave", Age = 25, Duration = TimeSpan.FromHours(2), AdditionalInfo = "extra", MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] }, MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }] };
             await Task.CompletedTask;
         }
 
@@ -228,8 +243,8 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
 
         async IAsyncEnumerable<HelloCodeFirstRequest> GetRequests()
         {
-            yield return new HelloCodeFirstRequest { Name = "Alice", Action = "greet", Age = 30, Duration = TimeSpan.FromHours(1) };
-            yield return new HelloCodeFirstRequest { Name = "Bob", Action = "wave", Age = 25, Duration = TimeSpan.FromHours(2) };
+            yield return new HelloCodeFirstRequest { Name = "Alice", Action = "greet", Age = 30, Duration = TimeSpan.FromHours(1), AdditionalInfo = "extra", MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] }, MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }] };
+            yield return new HelloCodeFirstRequest { Name = "Bob", Action = "wave", Age = 25, Duration = TimeSpan.FromHours(2), AdditionalInfo = "extra", MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] }, MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }] };
             await Task.CompletedTask;
         }
 
@@ -259,7 +274,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                 Name = "Alice",
                 Action = "greet",
                 Age = 30,
-                Duration = TimeSpan.FromMinutes(10)
+                Duration = TimeSpan.FromMinutes(10),
+                AdditionalInfo = "extra",
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
             }, default);
         }
 
@@ -275,6 +293,114 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
             {
                 PropertyNames = ["Duration"],
                 ErrorMessage = "The field Duration must be between 00:30:00 and 08:00:00."
+            }
+        ]);
+    }
+
+    [Fact]
+    public void Should_ThrowInvalidArgument_When_AdditionalInfoIsNull()
+    {
+        var client = CreateClient();
+
+        // Run test
+        void Action()
+        {
+            client.SayHello(new HelloCodeFirstRequest
+            {
+                Name = "Alice",
+                Action = "greet",
+                Age = 30,
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = null,
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
+            }, default);
+        }
+
+        // Verify
+        var rpcException = FluentActions.Invoking(Action).Should().Throw<RpcException>().Which;
+        rpcException.Status.StatusCode.Should().Be(StatusCode.InvalidArgument);
+        rpcException.Status.Detail.Should().Be("The AdditionalInfo field is required.");
+
+        var errors = rpcException.GetValidationErrors();
+        errors.Should().BeEquivalentTo(
+        [
+            new DataAnnotationValidationTrailers
+            {
+                PropertyNames = ["AdditionalInfo"],
+                ErrorMessage = "The AdditionalInfo field is required."
+            }
+        ]);
+    }
+
+    [Fact]
+    public void Should_ThrowInvalidArgument_When_MoreInfoIsNull()
+    {
+        var client = CreateClient();
+
+        // Run test
+        void Action()
+        {
+            client.SayHello(new HelloCodeFirstRequest
+            {
+                Name = "Alice",
+                Action = "greet",
+                Age = 30,
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "extra",
+                MoreInfo = null,
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
+            }, default);
+        }
+
+        // Verify
+        var rpcException = FluentActions.Invoking(Action).Should().Throw<RpcException>().Which;
+        rpcException.Status.StatusCode.Should().Be(StatusCode.InvalidArgument);
+        rpcException.Status.Detail.Should().Be("The MoreInfo field is required.");
+
+        var errors = rpcException.GetValidationErrors();
+        errors.Should().BeEquivalentTo(
+        [
+            new DataAnnotationValidationTrailers
+            {
+                PropertyNames = ["MoreInfo"],
+                ErrorMessage = "The MoreInfo field is required."
+            }
+        ]);
+    }
+
+    [Fact]
+    public void Should_ThrowInvalidArgument_When_MoreInfoArrayIsNull()
+    {
+        var client = CreateClient();
+
+        // Run test
+        void Action()
+        {
+            client.SayHello(new HelloCodeFirstRequest
+            {
+                Name = "Alice",
+                Action = "greet",
+                Age = 30,
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "extra",
+                MoreInfo = new MoreInfo { Info = "info", ArrayData = ["a"] },
+                MoreInfoArray = null
+            }, default);
+        }
+
+        // Verify
+        var rpcException = FluentActions.Invoking(Action).Should().Throw<RpcException>().Which;
+        rpcException.Status.StatusCode.Should().Be(StatusCode.InvalidArgument);
+        rpcException.Status.Detail.Should().Be("The MoreInfoArray field is required.");
+
+        var errors = rpcException.GetValidationErrors();
+        errors.Should().BeEquivalentTo(
+        [
+            new DataAnnotationValidationTrailers
+            {
+                PropertyNames = ["MoreInfoArray"],
+                ErrorMessage = "The MoreInfoArray field is required."
             }
         ]);
     }

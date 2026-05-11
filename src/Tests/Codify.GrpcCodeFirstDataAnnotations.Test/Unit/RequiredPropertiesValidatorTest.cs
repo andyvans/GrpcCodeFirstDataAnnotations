@@ -3,7 +3,7 @@ using Codify.GrpcCodeFirstDataAnnotations.Internal;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 
-namespace Codify.GrpcCodeFirstDataAnnotations.Test;
+namespace Codify.GrpcCodeFirstDataAnnotations.Test.Unit;
 
 public class RequiredPropertiesValidatorTest
 {

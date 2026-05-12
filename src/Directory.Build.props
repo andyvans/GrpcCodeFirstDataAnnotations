@@ -3,9 +3,6 @@
   <PropertyGroup>
     <Authors>Andy van Stokkum</Authors>
     <Company>Codify</Company>
-    <Version>1.0.4</Version>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
-    <FileVersion>$(Version)</FileVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageProjectUrl>https://github.com/andyvans/GrpcCodeFirstDataAnnotations</PackageProjectUrl>

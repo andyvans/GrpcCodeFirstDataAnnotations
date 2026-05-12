@@ -35,8 +35,11 @@ Optionally configure the validation behavior:
 ```csharp   
 builder.Services.Configure<GrpcDataAnnotationValidationOptions>(options =>
 {
-    options.ValidateRequiredNonNullableProperties = true; // In addition to DataAnnotations attributes, also validate `required` reference type properties
-    options.ValidationFailureLogLevel = LogLevel.Warning; // Log validation failures at Warning level
+    // In addition to DataAnnotations attributes, also validate `required` reference type properties
+    options.ValidateRequiredNonNullableProperties = true;
+
+    // Log validation failures at Warning level
+    options.ValidationFailureLogLevel = LogLevel.Warning;
     
 });
 ```

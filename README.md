@@ -1,7 +1,6 @@
 # GRPC Code-First Data Annotations
 
-Data annotation validation for gRPC Code-First models in ASP.NET Core. Automatically validates request messages using `System.ComponentModel.DataAnnotations` attributes and 
-`required` properties then returns structured validation errors via gRPC trailers.
+Data annotation validation for gRPC Code-First models in ASP.NET Core. Automatically validates request messages using `System.ComponentModel.DataAnnotations` attributes and returns structured validation errors via gRPC trailers. Optionally validate `required` reference type properties on request models.
 
 ## Packages
 
@@ -32,6 +31,16 @@ builder.Services.AddCodeFirstGrpc(options =>
 });
 ```
 
+Optionally configure the validation behavior:
+```csharp   
+builder.Services.Configure<GrpcDataAnnotationValidationOptions>(options =>
+{
+    options.ValidateRequiredNonNullableProperties = true; // In addition to DataAnnotations attributes, also validate `required` reference type properties
+    options.ValidationFailureLogLevel = LogLevel.Warning; // Log validation failures at Warning level
+    
+});
+```
+
 3. Add `DataAnnotations` attributes to your request models:
 
 ```csharp
@@ -56,7 +65,8 @@ public class CreatePersonRequest
     [Range(typeof(TimeSpan), "00:30:00", "08:00:00")]
     public TimeSpan SessionDuration { get; set; }
 
-    [DataMember(Order = 5)]    
+    [DataMember(Order = 5)]
+    // This property will be validated as well if `ValidateRequiredNonNullableProperties` is enabled, even without DataAnnotations attributes
     public required string Job { get; set; }
 }
 ```

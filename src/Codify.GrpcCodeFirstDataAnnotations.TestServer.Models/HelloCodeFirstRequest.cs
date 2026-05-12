@@ -21,7 +21,7 @@ public class HelloCodeFirstRequest
     [ProtoMember(4)]
     [Range(typeof(TimeSpan), "00:30:00", "08:00:00")]
     public required TimeSpan Duration { get; init; }
-    
+        
     [ProtoMember(5)]
     [Required]
     public string? AdditionalInfo { get; init; }
@@ -38,9 +38,6 @@ public class HelloCodeFirstRequest
 [ProtoContract]
 public record MoreInfo
 {
-    /// <summary>
-    ///     Only <c>required</c> on this property
-    /// </summary>
     [ProtoMember(1)]
     public required string Info { get; init; }
 

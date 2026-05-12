@@ -10,12 +10,12 @@ public record DataAnnotationValidationOptions
     /// <summary>
     ///     Gets or sets the log level used when a validation failure occurs.
     /// </summary>
-    public LogLevel ValidationFailureLogLevel { get; set; } = LogLevel.Information;
+    public LogLevel ValidationFailureLogLevel { get; set; } = LogLevel.Debug;
 
     /// <summary>
     ///     Gets or sets a value indicating whether <c>required</c> non-nullable properties are validated.
     /// </summary>    
-    public bool ValidateRequiredNonNullableProperties { get; set; } = true;
+    public bool ValidateRequiredNonNullableProperties { get; set; } = false;
 
     /// <summary>
     ///     Gets or sets the maximum depth to recurse into nested properties when validating

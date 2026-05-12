@@ -18,7 +18,7 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(new ModelWithRequiredOnly { Name = "Alice", Description = "Desc" });
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     [Fact]
@@ -32,9 +32,10 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().HaveCount(2);
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Name' must not be null");
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Description' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Name must not be null.", MemberNames = new[] { "Name" } },
+            new { ErrorMessage = "Description must not be null.", MemberNames = new[] { "Description" } }
+        ]);
     }
 
     [Fact]
@@ -52,8 +53,9 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().ContainSingle()
-            .Which.ErrorMessage.Should().Be("'Description' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Description must not be null.", MemberNames = new[] { "Description" } }
+        ]);
     }
 
     [Fact]
@@ -64,7 +66,7 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(new ModelWithDataAnnotationsOnly { Name = null, Code = null });
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     [Fact]
@@ -77,11 +79,11 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     // -------------------------------------------------------------------------
-    // Combined scenarios (required keyword + data annotations together)
+    // Combined scenarios
     // -------------------------------------------------------------------------
 
     [Fact]
@@ -99,15 +101,14 @@ public class RequiredPropertiesValidatorTest
         var requiredResults = validator.Validate(instance);
 
         // [Required] catches Name via data annotations
-        annotationResults.Should().ContainSingle(r => r.MemberNames.Contains(nameof(ModelWithBoth.Name)));
+        annotationResults.Should().BeEquivalentTo([
+            new { MemberNames = new[] { nameof(ModelWithBoth.Name) } }
+        ], options => options.ExcludingMissingMembers());
 
         // RequiredPropertiesValidator catches Code via required keyword
-        requiredResults.Should().ContainSingle(r => r.ErrorMessage == "'Code' must not be null");
-
-        // Combined list covers both failures
-        var combined = new List<ValidationResult>(annotationResults);
-        combined.AddRange(requiredResults);
-        combined.Should().HaveCount(2);
+        requiredResults.Should().BeEquivalentTo([
+            new { ErrorMessage = "Code must not be null.", MemberNames = new[] { "Code" } }
+        ]);
     }
 
     [Fact]
@@ -121,8 +122,8 @@ public class RequiredPropertiesValidatorTest
 
         var requiredResults = validator.Validate(model);
 
-        annotationResults.Should().BeEmpty();
-        requiredResults.Should().BeEmpty();
+        annotationResults.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
+        requiredResults.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     // -------------------------------------------------------------------------
@@ -141,8 +142,9 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().ContainSingle()
-            .Which.ErrorMessage.Should().Be("'Child.Value' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Child.Value must not be null.", MemberNames = new[] { "Child.Value" } }
+        ]);
     }
 
     [Fact]
@@ -155,7 +157,7 @@ public class RequiredPropertiesValidatorTest
             Child = new ModelWithNestedRequired.Inner { Value = "hello" }
         });
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     // -------------------------------------------------------------------------
@@ -172,8 +174,10 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().ContainSingle(r => r.MemberNames.Contains(nameof(ModelWithRequiredOnly.Name)));
-        results.Should().ContainSingle(r => r.MemberNames.Contains(nameof(ModelWithRequiredOnly.Description)));
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Name must not be null.", MemberNames = new[] { "Name" } },
+            new { ErrorMessage = "Description must not be null.", MemberNames = new[] { "Description" } }
+        ]);
     }
 
     [Fact]
@@ -187,8 +191,9 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().ContainSingle()
-            .Which.MemberNames.Should().Contain("Child.Value");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Child.Value must not be null.", MemberNames = new[] { "Child.Value" } }
+        ]);
     }
 
     // -------------------------------------------------------------------------
@@ -206,9 +211,9 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        // Only the top-level Child failure; no separate Child.Value failure
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Child' must not be null");
-        results.Should().NotContain(r => r.ErrorMessage == "'Child.Value' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Child must not be null.", MemberNames = new[] { "Child" } }
+        ]);
     }
 
     // -------------------------------------------------------------------------
@@ -225,10 +230,10 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        // Both Tags (array) and Name (string) are required non-nullable — both null → two failures
-        results.Should().HaveCount(2);
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Tags' must not be null");
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Name' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Tags must not be null.", MemberNames = new[] { "Tags" } },
+            new { ErrorMessage = "Name must not be null.", MemberNames = new[] { "Name" } }
+        ]);
     }
 
     [Fact]
@@ -238,7 +243,7 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(new ModelWithRequiredArray { Tags = ["a", "b"], Name = "Alice" });
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     // -------------------------------------------------------------------------
@@ -255,9 +260,10 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().HaveCount(2);
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Items' must not be null");
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Name' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Items must not be null.", MemberNames = new[] { "Items" } },
+            new { ErrorMessage = "Name must not be null.", MemberNames = new[] { "Name" } }
+        ]);
     }
 
     // -------------------------------------------------------------------------
@@ -276,8 +282,9 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().ContainSingle()
-            .Which.ErrorMessage.Should().Be("'A.B.Value' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "A.B.Value must not be null.", MemberNames = new[] { "A.B.Value" } }
+        ]);
     }
 
     [Fact]
@@ -293,7 +300,7 @@ public class RequiredPropertiesValidatorTest
             }
         });
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     // -------------------------------------------------------------------------
@@ -311,7 +318,7 @@ public class RequiredPropertiesValidatorTest
 
         var results = validator.Validate(instance);
 
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     // -------------------------------------------------------------------------
@@ -331,7 +338,7 @@ public class RequiredPropertiesValidatorTest
         var results = validator.Validate(instance);
 
         // Child is set so no top-level failure; Child.Value is beyond depth 0 so not checked
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     [Fact]
@@ -345,7 +352,9 @@ public class RequiredPropertiesValidatorTest
         var results = validator.Validate(instance);
 
         // Top-level Child is null and depth 0 still covers level 1 properties of T
-        results.Should().ContainSingle(r => r.ErrorMessage == "'Child' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "Child must not be null.", MemberNames = new[] { "Child" } }
+        ]);
     }
 
     [Fact]
@@ -360,7 +369,9 @@ public class RequiredPropertiesValidatorTest
         var results = validator.Validate(instance);
 
         // A is set; A.B is null and is at depth 1 — should be reported
-        results.Should().ContainSingle(r => r.ErrorMessage == "'A.B' must not be null");
+        results.Should().BeEquivalentTo([
+            new { ErrorMessage = "A.B must not be null.", MemberNames = new[] { "A.B" } }
+        ]);
     }
 
     [Fact]
@@ -377,7 +388,7 @@ public class RequiredPropertiesValidatorTest
         var results = validator.Validate(instance);
 
         // A.B is set so no depth-1 failure; A.B.Value is beyond maxDepth so not checked
-        results.Should().BeEmpty();
+        results.Should().BeEquivalentTo(Array.Empty<ValidationResult>());
     }
 
     #region Test models

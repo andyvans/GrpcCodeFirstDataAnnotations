@@ -58,7 +58,7 @@ internal class RequiredPropertiesValidator<T> where T : class
             if (parent is null) continue; // parent itself is null — its own rule will already report it
 
             if (propertyGetter(parent) is null)
-                results.Add(new ValidationResult($"'{displayName}' must not be null", [displayName]));
+                results.Add(new ValidationResult($"{displayName} must not be null.", [displayName]));
         }
 
         return results;

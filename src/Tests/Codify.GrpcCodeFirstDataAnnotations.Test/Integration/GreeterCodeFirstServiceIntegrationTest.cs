@@ -27,7 +27,10 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                     services.AddCodeFirstGrpc();
 
                     // Add Codify.GrpcCodeFirstDataAnnotations services and enable validation
-                    services.AddGrpcDataAnnotationValidation();
+                    services.AddGrpcDataAnnotationValidation(options =>
+                    {
+                        options.ValidateRequiredNonNullableProperties = true;
+                    });
 
                     // Enable validation in gRPC options
                     services.AddGrpc(options => options.EnableDataAnnotationValidation());
@@ -329,6 +332,42 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
             {
                 PropertyNames = ["AdditionalInfo"],
                 ErrorMessage = "The AdditionalInfo field is required."
+            }
+        ]);
+    }
+
+    [Fact]
+    public void Should_ThrowInvalidArgument_When_InfoIsNull()
+    {
+        var client = CreateClient();
+
+        // Run test
+        void Action()
+        {
+            client.SayHello(new HelloCodeFirstRequest
+            {
+                Name = "Alice",
+                Action = "greet",
+                Age = 30,
+                Duration = TimeSpan.FromHours(1),
+                AdditionalInfo = "more",
+                MoreInfo = new MoreInfo { Info = null!, ArrayData = ["a"] },
+                MoreInfoArray = [new MoreInfo { Info = "info", ArrayData = ["a"] }]
+            }, default);
+        }
+
+        // Verify
+        var rpcException = FluentActions.Invoking(Action).Should().Throw<RpcException>().Which;
+        rpcException.Status.StatusCode.Should().Be(StatusCode.InvalidArgument);
+        rpcException.Status.Detail.Should().Be("MoreInfo.Info must not be null.");
+
+        var errors = rpcException.GetValidationErrors();
+        errors.Should().BeEquivalentTo(
+        [
+            new DataAnnotationValidationTrailers
+            {
+                PropertyNames = ["MoreInfo.Info"],
+                ErrorMessage = "MoreInfo.Info must not be null."
             }
         ]);
     }

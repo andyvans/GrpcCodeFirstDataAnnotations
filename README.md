@@ -35,8 +35,8 @@ Optionally configure the validation behavior:
 ```csharp   
 builder.Services.Configure<GrpcDataAnnotationValidationOptions>(options =>
 {
-    // In addition to DataAnnotations attributes, also validate `required` reference type properties
-    options.ValidateRequiredNonNullableProperties = true;
+    // In addition to DataAnnotations attributes, also validate `required` nullable reference type properties
+    options.ValidateRequiredNullableProperties = true;
 
     // Log validation failures at Warning level
     options.ValidationFailureLogLevel = LogLevel.Warning;
@@ -69,7 +69,7 @@ public class CreatePersonRequest
     public TimeSpan SessionDuration { get; set; }
 
     [DataMember(Order = 5)]
-    // This property will be validated as well if `ValidateRequiredNonNullableProperties` is enabled, even without DataAnnotations attributes
+    // This property will be validated as well if `ValidateRequiredNullableProperties` is enabled, even without DataAnnotations attributes
     public required string Job { get; set; }
 }
 ```

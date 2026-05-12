@@ -29,7 +29,7 @@ public class GreeterCodeFirstServiceIntegrationTest : IClassFixture<WebApplicati
                     // Add Codify.GrpcCodeFirstDataAnnotations services and enable validation
                     services.AddGrpcDataAnnotationValidation(options =>
                     {
-                        options.ValidateRequiredNonNullableProperties = true;
+                        options.ValidateRequiredNullableProperties = true;
                     });
 
                     // Enable validation in gRPC options

@@ -63,7 +63,7 @@ internal class DataAnnotationValidationInterceptor(
         Validator.TryValidateObject(request, context, validationFailures, true);
 
         // Then perform the required properties validation, which checks for properties that are non-nullable reference types but don't have a [Required] attribute
-        if (options.Value.ValidateRequiredNonNullableProperties)
+        if (options.Value.ValidateRequiredNullableProperties)
         {
             var requiredFailures = RequiredPropertiesValidatorShared.GetOrCreate<TRequest>(options.Value.MaxRequiredValidationDepth).Validate(request);
             validationFailures.AddRange(requiredFailures);

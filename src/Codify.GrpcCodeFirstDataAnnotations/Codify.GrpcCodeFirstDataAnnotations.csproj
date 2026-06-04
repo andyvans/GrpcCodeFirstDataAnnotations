@@ -7,6 +7,7 @@
 		<Product>Codify.GrpcCodeFirstDataAnnotations</Product>
 		<Description>Data annotation validations for gRPC Code-first models in AspNetCore</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>codify.png</PackageIcon>
 	</PropertyGroup>
 
     <ItemGroup>
@@ -20,9 +21,9 @@
       </None>
       <None Include="..\..\codify.png">
         <Pack>True</Pack>
-        <PackagePath></PackagePath>
+        <PackagePath>\</PackagePath>
       </None>
-      <None Include="..\..\license.txt">
+      <None Include="..\..\LICENSE">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>

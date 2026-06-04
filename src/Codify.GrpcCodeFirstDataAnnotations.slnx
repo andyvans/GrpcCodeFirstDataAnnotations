@@ -6,7 +6,7 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/Tests/">
-    <Project Path="Codify.GrpcCodeFirstDataAnnotations.TestServer.Models/Codify.GrpcCodeFirstDataAnnotations.TestServer.Models.csproj" Id="5753ca81-7624-4aa1-8c30-9959da6a896f" />
+    <Project Path="Tests/Codify.GrpcCodeFirstDataAnnotations.TestServer.Models/Codify.GrpcCodeFirstDataAnnotations.TestServer.Models.csproj" />
     <Project Path="Tests/Codify.GrpcCodeFirstDataAnnotations.Test/Codify.GrpcCodeFirstDataAnnotations.Test.csproj" />
     <Project Path="Tests/Codify.GrpcCodeFirstDataAnnotations.TestServer/Codify.GrpcCodeFirstDataAnnotations.TestServer.csproj" />
   </Folder>

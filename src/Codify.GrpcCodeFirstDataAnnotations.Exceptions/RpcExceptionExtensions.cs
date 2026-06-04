@@ -26,4 +26,15 @@ public static class RpcExceptionExtensions
             : null;
         return validationTrailers ?? [];
     }
+
+    public static string? GetFormattedValidationErrors(this RpcException exception)
+    {
+        var validationErrors = exception.GetValidationErrors();
+        if (!validationErrors.Any()) return null;
+
+        var formattedErrors = validationErrors
+            .Select(error => $"{string.Join(", ", error.PropertyNames)}: {error.ErrorMessage}")
+            .ToList();
+        return string.Join("\n", formattedErrors);
+    }   
 }

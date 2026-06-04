@@ -35,7 +35,7 @@ Optionally configure the validation behavior:
 ```csharp   
 builder.Services.Configure<GrpcDataAnnotationValidationOptions>(options =>
 {
-    // In addition to DataAnnotations attributes, also validate `required` nullable reference type properties
+    // Experimental - in addition to DataAnnotations attributes, also validate `required` nullable reference type properties
     options.ValidateRequiredNullableProperties = true;
 
     // Log validation failures at Warning level
@@ -132,4 +132,4 @@ For streaming methods, each incoming message is validated as it is read.
 
 ## License
 
-See [license.txt](license.txt) for details.
+See [LICENSE](LICENSE) for details.

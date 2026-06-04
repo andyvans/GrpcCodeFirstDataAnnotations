@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Codify.GrpcCodeFirstDataAnnotations.TestServer.Models\Codify.GrpcCodeFirstDataAnnotations.TestServer.Models.csproj" />
+      <ProjectReference Include="..\Codify.GrpcCodeFirstDataAnnotations.TestServer.Models\Codify.GrpcCodeFirstDataAnnotations.TestServer.Models.csproj" />
       <ProjectReference Include="..\..\Codify.GrpcCodeFirstDataAnnotations\Codify.GrpcCodeFirstDataAnnotations.csproj" />
     </ItemGroup>
 

@@ -32,6 +32,7 @@ builder.Services.AddCodeFirstGrpc(options =>
 ```
 
 Optionally configure the validation behavior:
+
 ```csharp   
 builder.Services.Configure<GrpcDataAnnotationValidationOptions>(options =>
 {
@@ -69,7 +70,7 @@ public class CreatePersonRequest
     public TimeSpan SessionDuration { get; set; }
 
     [DataMember(Order = 5)]
-    // This property will be validated as well if `ValidateRequiredNullableProperties` is enabled, even without DataAnnotations attributes
+    // Experimental - This property will be validated as well if `ValidateRequiredNullableProperties` is enabled, even without DataAnnotations attributes
     public required string Job { get; set; }
 }
 ```
@@ -93,6 +94,11 @@ try
 }
 catch (RpcException ex)
 {
+    // Get the formatted error message
+    var formattedMessage = ex.GetFormattedValidationErrors();
+    Console.WriteLine(formattedMessage);
+
+    // Optionally, get the structured validation errors
     var errors = ex.GetValidationErrors();
     foreach (var error in errors)
     {
